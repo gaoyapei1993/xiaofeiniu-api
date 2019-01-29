@@ -32,8 +32,29 @@
     //向请求主体中追加要提交的数据
     data.append('description',inputDesc.value);
     //向请求主体中追加用户选中的文件
-
+    data.append('dishImg',inputFile.files[0]);
+    axios.post('http://127.0.0.1:8090/admin/dish/image',data).then((res)=>{
+      alert(JSON.stringify(res.data));
+    }).catch((err)=>{
+      alert(err);
+    })
   }
+ btn4.onclick=function(){
+   var data={
+     title:'拉面',
+     imgUrl:'122456.jpg',
+     price:35,
+     dateil:'小烧饼详细介绍',
+     categoryId:3
+   },
+   axios.post('http://127.0.0.1:8090/admin/dish',data.then(res)=>{
+     console.log(res.data);
+   }).catch((err)=>{
+     console.log(err);
+   })
+ }
+
+
   </script>
 
 

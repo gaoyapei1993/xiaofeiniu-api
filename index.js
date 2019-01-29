@@ -24,3 +24,4 @@ app.use(bodyParser.json()); //把application/json格式的请求主体数据解�
 app.use('/admin/category', categoryRouter);
 app.use('/admin', adminRouter);
 app.use('/admin/dish',dishRouter);
+

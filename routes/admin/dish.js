@@ -74,7 +74,30 @@ function randFileName(suffix){
 
 /*
 *POST /admin/dish
+请求参数{title:'xxx',imgUrl：'..jpg',price:xx,detail:'xx'categoryId:'xx'}
+输出消息：{code：200,msg:'dish added succ',dishId:46}
 *添加一个新的菜品
+*/
+router.post('/',(req,res)=>{
+  pool.query('INSERT INTO xfn_dish SET ?',req.body,(err,result)=>{
+    if(err)throw err;
+    res.send({code:200,msg:'dish added succ',dishId:result.insertId}) //将insert语句产生
+
+  })
+})
+/*DELETE /admin/dish/:did
+根据指定的菜品编号删除该菜品
+输出数据：
+{code:200,msg:'dish deleted succ'}
+{code:400,msg:'dish not exists'}
+*/
+
+/*
+PUT/admin/dish
+请求参数：{did:xx,title:'xx',imgURL:'jpg',price:xxx,detail:'xxx',category:xxx}
+根据指定的菜品标号修改菜品
+输出数据：
+{code:200,msg:dish upda}
 */
 
 
