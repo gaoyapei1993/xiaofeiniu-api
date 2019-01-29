@@ -13,6 +13,7 @@ var app = express();
 app.listen(PORT, ()=>{
   console.log('Server Listening: '+PORT);
 });
+//静态资源托管
 app.use(express.static("./test"));
 //使用中间件
 app.use(cors());
