@@ -1,19 +1,26 @@
-/*桌台相关的路由器 */
-const express=require('express')
-const pool=require('../../pool')
-const router=express.Router();
-module.exports=router;
-
-
-/*GET  /admin/table 
-获取所有的桌台信息
-返回数据{tid:'xx',tname：'xx',status:'xx'}
+/*
+*桌台相关的路由器
 */
-router.get('/',(req,res)=>{
-    pool.query('SELECT * FROM xfn_table ORDER BY tid',(err,result)=>{
-        if(err)throw err;
-        res.send(result);
-    })
+const express = require('express');
+const pool = require('../../pool');
+var router = express.Router();
+module.exports = router;
+
+/*
+*GET  /admin/table
+*获取所有的桌台信息
+*返回数据：
+*   [
+*     {tid:xxx, tname:'xxx', status:''},
+*     ...
+*   ]
+*/
+router.get('/', (req, res)=>{
+  pool.query('SELECT * FROM xfn_table ORDER BY tid', (err, result)=>{
+    if(err)throw err;
+    res.send(result);
+  })
 })
+
 
 

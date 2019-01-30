@@ -42,12 +42,14 @@ router.get('/', (req, res)=>{
 *POST /admin/dish/image
 *请求参数：
 *接收客户端上传的菜品图片，保存在服务器上，返回该图片在服务器上的随机文件名
+*返回数据：
+*   {code:200, msg:"upload succ", fileName:'13512873612-2342.jpg'}
 */
 //引入multer中间件
 const multer = require('multer');
 const fs = require('fs');
 var upload = multer({
-  dest: 'tmp/'    //指定客户端上传的文件临时存储路径
+  dest: 'tmp/' //指定客户端上传的文件临时存储路径
 })
 //定义路由，使用文件上传中间件
 router.post('/image', upload.single('dishImg'), (req, res)=>{
@@ -55,10 +57,10 @@ router.post('/image', upload.single('dishImg'), (req, res)=>{
   //console.log(req.body); //客户端随同图片提交的字符数据
   //把客户端上传的文件从临时目录转移到永久的图片路径下
   var tmpFile = req.file.path;  //临时文件名
-  var suffix = req.file.originalname.substring( req.file.originalname.lastIndexOf('.')); //原始文件名中的后缀部分
+  var suffix = req.file.originalname.substring( req.file.originalname.lastIndexOf('.') ); //原始文件名中的后缀部分
   var newFile = randFileName(suffix); //目标文件名
   fs.rename(tmpFile, 'img/dish/'+newFile, ()=>{
-    res.send({code:200, msg:'upload succ', fileName:newFile}) //把临时文件转移
+    res.send({code:200, msg:'upload succ', fileName: newFile}) //把临时文件转移
   })
 })
 
@@ -74,39 +76,33 @@ function randFileName(suffix){
 
 /*
 *POST /admin/dish
-请求参数{title:'xxx',imgUrl：'..jpg',price:xx,detail:'xx'categoryId:'xx'}
-输出消息：{code：200,msg:'dish added succ',dishId:46}
+*请求参数：{title:'xx',imgUrl:'..jpg',price:xx,detail:'xx', categoryId:xx}
 *添加一个新的菜品
+*输出消息：
+*   {code:200, msg:'dish added succ', dishId:46}
 */
-router.post('/',(req,res)=>{
-  pool.query('INSERT INTO xfn_dish SET ?',req.body,(err,result)=>{
+router.post('/', (req, res)=>{
+  pool.query('INSERT INTO xfn_dish SET ?', req.body, (err, result)=>{
     if(err)throw err;
-    res.send({code:200,msg:'dish added succ',dishId:result.insertId}) //将insert语句产生
-
+    res.send({code:200, msg:'dish added succ', dishId:result.insertId}) //将INSERT语句产生的自增编号输出给客户端
   })
 })
-/*DELETE /admin/dish/:did
-根据指定的菜品编号删除该菜品
-输出数据：
-{code:200,msg:'dish deleted succ'}
-{code:400,msg:'dish not exists'}
-*/
 
 /*
-PUT/admin/dish
-请求参数：{did:xx,title:'xx',imgURL:'jpg',price:xxx,detail:'xxx',category:xxx}
-根据指定的菜品标号修改菜品
-输出数据：
-{code:200,msg:dish upda}
+*DELETE /admin/dish/:did
+*根据指定的菜品编号删除该菜品
+*输出数据：
+*   {code:200, msg:'dish deleted succ'}
+*   {code:400, msg:'dish not exists'}
 */
 
 
 
-
-
-
-
-
-
-
-
+/*
+*PUT /admin/dish
+*请求参数：{did:xx, title:'xx',imgUrl:'..jpg',price:xx,detail:'xx', categoryId:xx}
+*根据指定的菜品编号修改菜品
+*输出数据：
+*   {code:200, msg:'dish updated succ'}
+*   {code:400, msg:'dish not exists'}
+*/
