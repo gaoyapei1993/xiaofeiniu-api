@@ -13,3 +13,15 @@ router.get('/',(req,res)=>{
         res.send(result[0]);
     })
 })
+
+/*PUT /admin/settings
+请求数据，{appName:'xx'，adminUrl:'xx',appUrl:'xx'}
+
+*/
+
+router.put('/',(req,res)=>{
+   pool.query('UPDATE xfn_settings SET ?',(err,result)=>{
+       if(err)throw err;
+       res.send({code:200,msg:'settings updated success'});
+   })
+})
